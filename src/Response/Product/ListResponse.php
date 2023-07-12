@@ -27,8 +27,8 @@ class ListResponse implements IResponse
             throw new InsightsException('Response not return products');
         }
         $this->status = $data['status'];
-        foreach ($data['products'] as $translation) {
-            $this->products[$translation['product_id']] = new GetResponse($translation);
+        foreach ($data['products'] as $product) {
+            $this->products[$product['ean']] = new GetResponse($product);
         }
         $this->setPaginatorData($data['paginator'] ?? []);
     }

@@ -9,10 +9,11 @@ use Expando\InsightsPackage\IResponse;
 
 class GetResponse implements IResponse
 {
-    protected int $product_id;
+    protected int $ean;
     protected string $status;
     protected ?string $message = null;
     protected array $data;
+    protected array $productData;
 
     /**
      * ProductPostResponse constructor.
@@ -21,19 +22,24 @@ class GetResponse implements IResponse
      */
     public function __construct(array $data)
     {
-        if (($data['product_id'] ?? null) === null) {
-            throw new InsightsException('Response product not return "product_id"');
+        if (($data['ean'] ?? null) === null) {
+            throw new InsightsException('Response product not return "ean"');
         }
 
-        $this->product_id = $data['product_id'];
+        if (($data['product_data'] ?? null) === null) {
+            throw new InsightsException('Response product not return "product_data"');
+        }
+
+        $this->ean = (int) $data['ean'];
+        $this->productData = $data['product_data'];
     }
 
     /**
      * @return int
      */
-    public function getProductId(): int
+    public function getProductEan(): int
     {
-        return $this->product_id;
+        return $this->ean;
     }
 
     /**
@@ -42,6 +48,14 @@ class GetResponse implements IResponse
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProductData(): array
+    {
+        return $this->productData;
     }
 
     /**

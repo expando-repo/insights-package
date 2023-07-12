@@ -7,6 +7,7 @@ namespace Expando\InsightsPackage;
 use Expando\InsightsPackage\Exceptions\InsightsException;
 use Expando\InsightsPackage\Request\ProductFilterRequest;
 use Expando\InsightsPackage\Request\ProductRequest;
+use Expando\InsightsPackage\Request\FeedRequest;
 use Expando\InsightsPackage\Response\Product;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -123,24 +124,18 @@ class Insights
 
     /**
      * @param IRequest $request
-     * @return IResponse
+     * @return Product\PostResponse
      * @throws InsightsException
      */
-    public function send(IRequest $request): IResponse
+    public function send(IRequest $request): Product\PostResponse
     {
         if (!$this->isLogged()) {
             throw new InsightsException('Translado is not logged');
         }
 
-        if ($request instanceof ProductRequest) {
-
-            if ($request->getProductId()) {
-                $data = $this->sendToTranslado('/products/' . $request->getProductId() . '/', 'PUT', $request->asArray());
-                $result = new Product\PostResponse($data);
-            } else {
-                $data = $this->sendToTranslado('/products/', 'POST', $request->asArray());
-                $result = new Product\PostResponse($data);
-            }
+        if ($request instanceof FeedRequest) {
+            $data = $this->sendToTranslado('/feed/' . $request->getSource(), 'POST', $request->asArray());
+            $result = new Product\PostResponse($data);
         }
         else {
             throw new InsightsException('Request not defined');
@@ -163,7 +158,7 @@ class Insights
 
         $data = $this->sendToTranslado('/products/', 'GET', array_filter([
             'page' => $page,
-            'on_page' => $onPage,
+            'on-page' => $onPage,
         ]));
         return new Product\ListResponse($data);
     }
@@ -179,13 +174,13 @@ class Insights
             throw new InsightsException('Translado is not logged');
         }
 
-        $data = $this->sendToTranslado('/products/' . $productId . '/', 'GET');
+        $data = $this->sendToTranslado('/product/' . $productId . '/', 'GET');
         return new Product\GetResponse($data);
     }
 
     /**
      * @param string $action
-     * @param $method
+     * @param mixed $method
      * @param array $body
      * @return array
      * @throws InsightsException
@@ -202,13 +197,17 @@ class Insights
             $url .= '?' . http_build_query($body);
         }
         $ch = curl_init($url);
+        if ($ch === false) {
+            throw new InsightsException('curl_init() failed');
+        }
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if (!empty($body) && in_array($method, ['POST', 'PUT'])) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($body));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         }
         $return = curl_exec($ch);
         curl_close($ch);

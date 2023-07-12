@@ -9,7 +9,7 @@ use Expando\InsightsPackage\IResponse;
 
 class PostResponse implements IResponse
 {
-    private int $product_id;
+    private string $status;
 
     /**
      * PostResponse constructor.
@@ -18,17 +18,17 @@ class PostResponse implements IResponse
      */
     public function __construct(array $data)
     {
-        if (($data['product_id'] ?? null) === null) {
-            throw new InsightsException('Response not return product_id');
+        if (($data['status'] ?? null) === null) {
+            throw new InsightsException('Response did not returned status');
         }
-        $this->product_id = $data['product_id'];
+        $this->status = $data['status'];
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getProductId(): int
+    public function getStatus(): string
     {
-        return $this->product_id;
+        return $this->status;
     }
 }

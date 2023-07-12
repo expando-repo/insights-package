@@ -33,7 +33,12 @@
 
         echo '<ul>';
         foreach ($response->getProducts() as $product) {
-            echo '<li><strong>Product ID:</strong> ' . $product->getProductId() . '</li>';
+            echo '<li><strong>Product EAN:</strong> ' . $product->getProductEan() . '</li>';
+            echo '<ul>';
+            foreach ($product->getProductData() as $key => $attribute) {
+                echo '<li><strong>'. $key .'</strong>: '. $attribute.'</li>';
+            }
+            echo '</ul>';
         }
         echo '</ul>';
     }

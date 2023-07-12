@@ -26,6 +26,7 @@ class Login
 
     /**
      * @param string $scope
+     * @return void
      */
     public function addScope(string $scope)
     {
