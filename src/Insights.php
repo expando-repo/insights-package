@@ -147,10 +147,15 @@ class Insights
     /**
      * @param int $page
      * @param int $onPage
+     * @param int $price_from
+     * @param int $price_to
+     * @param string $category
+     * @param string $price
+     * @param string $order
      * @return Product\ListResponse
      * @throws InsightsException
      */
-    public function listProducts(int $page = 1, int $onPage = 20): Product\ListResponse
+    public function listProducts(int $page = 1, int $onPage = 20, int $price_from = null, int $price_to = null, string $category = null, string $price = null, string $order = null): Product\ListResponse
     {
         if (!$this->isLogged()) {
             throw new InsightsException('Translado is not logged');
@@ -159,6 +164,11 @@ class Insights
         $data = $this->sendToTranslado('/products/', 'GET', array_filter([
             'page' => $page,
             'on-page' => $onPage,
+            'price_from' => $price_from,
+            'price_to' => $price_to,
+            'category' => $category,
+            'price' => $price,
+            'order' => $order
         ]));
         return new Product\ListResponse($data);
     }

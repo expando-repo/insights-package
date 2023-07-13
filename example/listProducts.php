@@ -20,7 +20,7 @@
 
     if ($_POST['send'] ?? null) {
         try {
-            $response = $insights->listProducts($_POST['page'], $_POST['on-page']);
+            $response = $insights->listProducts($_POST['page'], $_POST['on-page'], (int)$_POST['price_from'], (int)$_POST['price_to'], $_POST['category'], $_POST['price'] ?? null, $_POST['order'] ?? null);
         }
         catch (\Expando\InsightsPackage\Exceptions\InsightsException $e) {
             die($e->getMessage());
@@ -55,6 +55,40 @@
         <label>
             page<br />
             <input type="text" name="page" value="<?php echo $_POST['page'] ?? 1 ?>"  />
+        </label>
+    </div>
+    <div>
+        <label>
+            price from<br />
+            <input type="text" name="price_from" value="<?php echo $_POST['price_from'] ?? null ?>"  />
+        </label>
+    </div>
+    <div>
+        <label>
+            price to<br />
+            <input type="text" name="price_to" value="<?php echo $_POST['price_to'] ?? null ?>"  />
+        </label>
+    </div>
+    <div>
+        <label>
+            category<br />
+            <input type="text" name="category" value="<?php echo $_POST['category'] ?? null ?>"  />
+        </label>
+    </div>
+    <div>
+        <label>
+            price<br />
+            <input type="radio" name="price" value="highest" /><label>highest</label>
+            <input type="radio" name="price" value="lowest" /><label>lowest</label>
+            <input type="radio" name="price" value="neutral" /><label>neutral</label>
+            <input type="radio" name="price" value="only_seller" /><label>Only seller</label>
+        </label>
+    </div>
+    <div>
+        <label>
+            order<br />
+            <input type="radio" name="order" value="asc" /><label>asc</label>
+            <input type="radio" name="order" value="desc" /><label>desc</label>
         </label>
     </div>
     <div>
