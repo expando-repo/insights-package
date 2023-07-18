@@ -155,7 +155,7 @@ class Insights
      * @return Product\ListResponse
      * @throws InsightsException
      */
-    public function listProducts(int $page = 1, int $onPage = 20, int $price_from = null, int $price_to = null, string $category = null, string $price = null, string $order = null): Product\ListResponse
+    public function listProducts(int $page = 1, int $onPage = 20, int $price_from = null, int $price_to = null, string $category = null, string $price = null, string $order = null, string $locale = null): Product\ListResponse
     {
         if (!$this->isLogged()) {
             throw new InsightsException('Translado is not logged');
@@ -168,7 +168,8 @@ class Insights
             'price_to' => $price_to,
             'category' => $category,
             'price' => $price,
-            'order' => $order
+            'order' => $order,
+            'locale' => $locale
         ]));
         return new Product\ListResponse($data);
     }

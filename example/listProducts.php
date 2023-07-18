@@ -20,7 +20,7 @@
 
     if ($_POST['send'] ?? null) {
         try {
-            $response = $insights->listProducts($_POST['page'], $_POST['on-page'], (int)$_POST['price_from'], (int)$_POST['price_to'], $_POST['category'], $_POST['price'] ?? null, $_POST['order'] ?? null);
+            $response = $insights->listProducts($_POST['page'], $_POST['on-page'], (int)$_POST['price_from'], (int)$_POST['price_to'], $_POST['category'], $_POST['price'] ?? null, $_POST['order'] ?? null, $_POST['locale'] ?? null);
         }
         catch (\Expando\InsightsPackage\Exceptions\InsightsException $e) {
             die($e->getMessage());
@@ -73,6 +73,12 @@
         <label>
             category<br />
             <input type="text" name="category" value="<?php echo $_POST['category'] ?? null ?>"  />
+        </label>
+    </div>
+    <div>
+        <label>
+            locale<br />
+            <input type="text" name="locale" value="<?php echo $_POST['locale'] ?? null ?>"  />
         </label>
     </div>
     <div>
