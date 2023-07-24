@@ -28,7 +28,7 @@ class ListResponse implements IResponse
         }
         $this->status = $data['status'];
         foreach ($data['products'] as $product) {
-            $this->products[$product['ean']] = new GetResponse($product);
+            $this->products[] = new GetResponse($product);
         }
         $this->setPaginatorData($data['paginator'] ?? []);
     }
