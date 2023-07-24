@@ -9,6 +9,7 @@ use Expando\InsightsPackage\Request\ProductFilterRequest;
 use Expando\InsightsPackage\Request\ProductRequest;
 use Expando\InsightsPackage\Request\FeedRequest;
 use Expando\InsightsPackage\Response\Product;
+use Expando\InsightsPackage\Response\Source;
 use JetBrains\PhpStorm\ArrayShape;
 
 class Insights
@@ -155,13 +156,13 @@ class Insights
      * @return Product\ListResponse
      * @throws InsightsException
      */
-    public function listProducts(int $page = 1, int $onPage = 20, int $price_from = null, int $price_to = null, string $category = null, string $price = null, string $order = null, string $locale = null): Product\ListResponse
+    public function listProducts(int $page = 1, int $onPage = 20, int $price_from = null, int $price_to = null, string $category = null, string $price = null, string $order = null, string $locale = null, string $text = null, string $source = null): Product\ListResponse
     {
         if (!$this->isLogged()) {
             throw new InsightsException('Translado is not logged');
         }
 
-        $data = $this->sendToTranslado('/products/', 'GET', array_filter([
+        $data = $this->sendToTranslado('/products/list', 'GET', array_filter([
             'page' => $page,
             'on-page' => $onPage,
             'price_from' => $price_from,
@@ -169,9 +170,31 @@ class Insights
             'category' => $category,
             'price' => $price,
             'order' => $order,
-            'locale' => $locale
+            'locale' => $locale,
+            'text' => $text,
+            'source' => $source
         ]));
         return new Product\ListResponse($data);
+    }
+
+    public function listAllSources(string $locale = null)
+    {
+        if (!$this->isLogged()) {
+            throw new InsightsException('Translado is not logged');
+        }
+
+        $data = $this->sendToTranslado('/sources/all', 'GET', ['locale' => $locale]);
+        return new Source\ListResponse($data);
+    }
+
+    public function listMySources(string $locale = null)
+    {
+        if (!$this->isLogged()) {
+            throw new InsightsException('Translado is not logged');
+        }
+
+        $data = $this->sendToTranslado('/sources/', 'GET', ['locale' => $locale]);
+        return new Source\ListResponse($data);
     }
 
     /**

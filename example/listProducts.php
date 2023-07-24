@@ -20,7 +20,18 @@
 
     if ($_POST['send'] ?? null) {
         try {
-            $response = $insights->listProducts($_POST['page'], $_POST['on-page'], (int)$_POST['price_from'], (int)$_POST['price_to'], $_POST['category'], $_POST['price'] ?? null, $_POST['order'] ?? null, $_POST['locale'] ?? null);
+            $response = $insights->listProducts(
+                $_POST['page'], 
+                $_POST['on-page'], 
+                (int)$_POST['price_from'], 
+                (int)$_POST['price_to'], 
+                $_POST['category'], 
+                $_POST['price'] ?? null, 
+                $_POST['order'] ?? null, 
+                $_POST['locale'], 
+                $_POST['text'],
+                $_POST['source']
+            );
         }
         catch (\Expando\InsightsPackage\Exceptions\InsightsException $e) {
             die($e->getMessage());
@@ -32,14 +43,25 @@
         echo '-----------------------------<br />';
 
         echo '<ul>';
-        foreach ($response->getProducts() as $product) {
-            echo '<li><strong>Product EAN:</strong> ' . $product->getProductEan() . '</li>';
-            echo '<ul>';
-            foreach ($product->getProductData() as $key => $attribute) {
-                echo '<li><strong>'. $key .'</strong>: '. $attribute.'</li>';
+            foreach ($response->getProducts() as $product) {
+                echo '<li><strong>Product EAN:</strong> ' . $product->getProductEan() . '</li>';
+                echo '<ul>';
+                    echo '<li><strong>ProductData</strong></li>';
+                    echo '<ul>';
+                        foreach ($product->getProductData() as $key => $attribute) {
+                            echo '<li><strong>'. $key .'</strong>: '. $attribute .'</li>';
+                        }
+                    echo '</ul>';
+                echo '</ul>';
+                echo '<ul>';
+                    echo '<li><strong>PriceData</strong></li>';
+                    echo '<ul>';
+                        foreach ($product->getPriceData() as $key => $attribute) {
+                            echo '<li><strong>'. $key .'</strong>: '. $attribute .'</li>';
+                        }
+                    echo '</ul>';
+                echo '</ul>';
             }
-            echo '</ul>';
-        }
         echo '</ul>';
     }
 ?>
@@ -79,6 +101,18 @@
         <label>
             locale<br />
             <input type="text" name="locale" value="<?php echo $_POST['locale'] ?? null ?>"  />
+        </label>
+    </div>
+    <div>
+        <label>
+            ean | name<br />
+            <input type="text" name="text" value="<?php echo $_POST['text'] ?? null ?>"  />
+        </label>
+    </div>
+    <div>
+        <label>
+            source<br />
+            <input type="text" name="source" value="<?php echo $_POST['source'] ?? null ?>"  />
         </label>
     </div>
     <div>

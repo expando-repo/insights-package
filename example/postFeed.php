@@ -1,8 +1,8 @@
 <form method="post" enctype="multipart/form-data">
     <div>
         <label>
-            Feed: <br />
-            <input type="file" name="feed" />
+            Feed url: <br />
+            <input type="text" name="url" />
         </label>
     </div>
 
@@ -39,7 +39,7 @@
 
     if ($_POST['send'] ?? null) {
         try {
-            $response = $insights->send(new FeedRequest($_POST['source'], $_FILES['feed']['tmp_name']));
+            $response = $insights->send(new FeedRequest($_POST['source'], $_POST['url']));
         }
         catch (\Expando\InsightsPackage\Exceptions\InsightsException $e) {
             die($e->getMessage());

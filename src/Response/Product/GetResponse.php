@@ -12,8 +12,8 @@ class GetResponse implements IResponse
     protected int $ean;
     protected string $status;
     protected ?string $message = null;
-    protected array $data;
     protected array $productData;
+    protected array $priceData;
 
     /**
      * ProductPostResponse constructor.
@@ -30,8 +30,13 @@ class GetResponse implements IResponse
             throw new InsightsException('Response product not return "product_data"');
         }
 
+        if (($data['price_data'] ?? null) === null) {
+            throw new InsightsException('Response product not return "price_data"');
+        }
+
         $this->ean = (int) $data['ean'];
         $this->productData = $data['product_data'];
+        $this->priceData = $data['price_data'];
     }
 
     /**
@@ -59,26 +64,18 @@ class GetResponse implements IResponse
     }
 
     /**
+     * @return array
+     */
+    public function getPriceData(): array
+    {
+        return $this->priceData;
+    }
+
+    /**
      * @return string|null
      */
     public function getMessage(): ?string
     {
         return $this->message;
-    }
-
-    /**
-     * @return array
-     */
-    public function getData(): array
-    {
-        return $this->data;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasProductData(): bool
-    {
-        return !empty($this->data);
     }
 }
