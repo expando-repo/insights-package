@@ -22,6 +22,7 @@
 <?php } else { ?>
     <ul>
         <li><a href="listProducts.php">list products</a></li>
+        <li><a href="listSources.php">list sources</a></li>
         <li><a href="getProduct.php">get product</a></li>
         <li><a href="postFeed.php">post feed</a></li>
         <li><a href="logout.php">logout (delete token)</a></li>
