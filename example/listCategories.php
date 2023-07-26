@@ -26,7 +26,7 @@
         </label>
     </div>
     <div>
-        <input type="submit" name="send" value="All sources" />
+        <input type="submit" name="send" value="submit" />
     </div>
 </form>
 
