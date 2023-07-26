@@ -10,6 +10,7 @@ use Expando\InsightsPackage\Request\ProductRequest;
 use Expando\InsightsPackage\Request\FeedRequest;
 use Expando\InsightsPackage\Response\Product;
 use Expando\InsightsPackage\Response\Source;
+use Expando\InsightsPackage\Response\Category;
 use JetBrains\PhpStorm\ArrayShape;
 
 class Insights
@@ -195,6 +196,15 @@ class Insights
 
         $data = $this->sendToTranslado('/sources/', 'GET', ['locale' => $locale]);
         return new Source\ListResponse($data);
+    }
+
+    public function listAllCategories(?string $source = null) {
+        if (!$this->isLogged()) {
+            throw new InsightsException('Translado is not logged');
+        }
+
+        $data = $this->sendToTranslado('/categories/', 'GET', ['source' => $source]);
+        return new Category\ListResponse($data);
     }
 
     /**
