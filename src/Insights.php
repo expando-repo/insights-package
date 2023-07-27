@@ -178,6 +178,10 @@ class Insights
         return new Product\ListResponse($data);
     }
 
+    /**
+     * @return Source\ListResponse
+     * @throws InsightsException
+     */
     public function listAllSources(string $locale = null)
     {
         if (!$this->isLogged()) {
@@ -188,6 +192,11 @@ class Insights
         return new Source\ListResponse($data);
     }
 
+
+    /**
+     * @return Source\ListResponse
+     * @throws InsightsException
+     */
     public function listMySources(string $locale = null)
     {
         if (!$this->isLogged()) {
@@ -198,6 +207,10 @@ class Insights
         return new Source\ListResponse($data);
     }
 
+    /**
+     * @return Category\ListResponse
+     * @throws InsightsException
+     */
     public function listAllCategories(?string $source = null) {
         if (!$this->isLogged()) {
             throw new InsightsException('Translado is not logged');

@@ -33,7 +33,7 @@
 </form>
 
 <?php
-    if ($_POST['send1'] ?? null || $_POST['send2'] ?? null) {
+    if (isset($_POST['send1']) || isset($_POST['send2'])) {
         try {
             $response = $_POST['send1'] ?? null ? $insights->listAllSources($_POST['locale']): $insights->listMySources($_POST['locale']);
         }

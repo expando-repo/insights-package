@@ -7,8 +7,8 @@ use Expando\InsightsPackage\IResponse;
 
 class ListResponse implements IResponse
 {
-    /** @var GetResponse[]  */
-    private array $sources = [];
+    /** @var array[[]] GetResponse  */
+    private array $sources = [[]];
     private string $status;
 
     /**
@@ -30,7 +30,7 @@ class ListResponse implements IResponse
     }
 
     /**
-     * @return GetResponse[]
+     * @return array[[]] GetResponse
      */
     public function getSources(): array
     {

@@ -12,7 +12,6 @@ class GetResponse implements IResponse
     /**
      * CategoryGetResponse constructor.
      * @param string $name
-     * @param string $locale
      * @throws InsightsException
      */
     public function __construct(string $name)
