@@ -57,7 +57,16 @@
                     echo '<li><strong>PriceData</strong></li>';
                     echo '<ul>';
                         foreach ($product->getPriceData() as $key => $attribute) {
-                            echo '<li><strong>'. $key .'</strong>: '. $attribute .'</li>';
+                            if (is_array($attribute)) {
+                                echo '<li><strong>'. $key .': </strong></li>';
+                                echo '<ul>';
+                                foreach ($attribute as $sa_key => $subAttribute) {
+                                    echo '<li><strong>'. $sa_key .'</strong>: '. $subAttribute .'</li>';
+                                }
+                                echo '</ul>';
+                            } else {
+                                echo '<li><strong>'. $key .'</strong>: '. (empty($attribute) ? 'null': $attribute)  .'</li>';
+                            }
                         }
                     echo '</ul>';
                 echo '</ul>';
