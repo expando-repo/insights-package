@@ -165,7 +165,7 @@ class Insights
 
         $data = $this->sendToTranslado('/products/list', 'GET', array_filter([
             'page' => $page,
-            'on-page' => $onPage,
+            'on_page' => $onPage,
             'price_from' => $price_from,
             'price_to' => $price_to,
             'category' => $category,

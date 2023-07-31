@@ -22,7 +22,7 @@
         try {
             $response = $insights->listProducts(
                 $_POST['page'], 
-                $_POST['on-page'], 
+                $_POST['on_page'], 
                 (int)$_POST['price_from'], 
                 (int)$_POST['price_to'], 
                 $_POST['category'], 
@@ -70,7 +70,7 @@
     <div>
         <label>
             on page<br />
-            <input type="text" name="on-page" value="<?php echo $_POST['on-page'] ?? 10 ?>"  />
+            <input type="text" name="on_page" value="<?php echo $_POST['on_page'] ?? 10 ?>"  />
         </label>
     </div>
     <div>
