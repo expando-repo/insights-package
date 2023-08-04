@@ -10,6 +10,7 @@ use Expando\InsightsPackage\IResponse;
 class PostResponse implements IResponse
 {
     private string $status;
+    private string $hash;
 
     /**
      * PostResponse constructor.
@@ -21,7 +22,12 @@ class PostResponse implements IResponse
         if (($data['status'] ?? null) === null) {
             throw new InsightsException('Response did not returned status');
         }
+
+        if (($data['hash'] ?? null) === null) {
+            throw new InsightsException('Response did not returned hash');
+        }
         $this->status = $data['status'];
+        $this->hash = $data['hash'];
     }
 
     /**
@@ -30,5 +36,13 @@ class PostResponse implements IResponse
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return $this->hash;
     }
 }

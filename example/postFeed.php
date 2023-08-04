@@ -44,6 +44,7 @@
         catch (\Expando\InsightsPackage\Exceptions\InsightsException $e) {
             die($e->getMessage());
         }
-        echo '<strong>Status: ' . $response->getStatus() .'</strong>';
+        echo '<strong>Status: ' . $response->getStatus() .'</strong><br>';
+        echo '<strong>Hash: ' . $response->getHash() .'</strong>';
     }
 ?>
