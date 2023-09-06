@@ -6,8 +6,10 @@ namespace Expando\InsightsPackage;
 
 use Expando\InsightsPackage\Exceptions\InsightsException;
 use Expando\InsightsPackage\Request\ProductFilterRequest;
+use Expando\InsightsPackage\Request\ProductHeurekaBiddingRequest;
 use Expando\InsightsPackage\Request\ProductRequest;
 use Expando\InsightsPackage\Request\FeedRequest;
+use Expando\InsightsPackage\Response\HeurekaBidding;
 use Expando\InsightsPackage\Response\Product;
 use Expando\InsightsPackage\Response\Source;
 use Expando\InsightsPackage\Response\Category;
@@ -126,20 +128,22 @@ class Insights
 
     /**
      * @param IRequest $request
-     * @return Product\PostResponse
+     * @return Product\PostResponse|HeurekaBidding\PostResponse
      * @throws InsightsException
      */
-    public function send(IRequest $request): Product\PostResponse
+    public function send(IRequest $request)
     {
         if (!$this->isLogged()) {
-            throw new InsightsException('Translado is not logged');
+            throw new InsightsException('Insights is not logged');
         }
 
         if ($request instanceof FeedRequest) {
             $data = $this->sendToTranslado('/feed/' . $request->getSource(), 'POST', $request->asArray());
             $result = new Product\PostResponse($data);
-        }
-        else {
+        } else if ($request instanceof ProductHeurekaBiddingRequest) {
+            $data = $this->sendToTranslado('/heurekaBidding', 'POST', $request->asArray());
+            $result = new HeurekaBidding\PostResponse($data);
+        } else {
             throw new InsightsException('Request not defined');
         }
 
@@ -160,7 +164,7 @@ class Insights
     public function listProducts(int $page = 1, int $onPage = 20, int $price_from = null, int $price_to = null, string $category = null, string $price = null, string $order = null, string $locale = null, string|array $text = null, string $source = null): Product\ListResponse
     {
         if (!$this->isLogged()) {
-            throw new InsightsException('Translado is not logged');
+            throw new InsightsException('Insights is not logged');
         }
 
         $data = $this->sendToTranslado('/products/list', 'GET', array_filter([
@@ -185,7 +189,7 @@ class Insights
     public function listAllSources(string $locale = null)
     {
         if (!$this->isLogged()) {
-            throw new InsightsException('Translado is not logged');
+            throw new InsightsException('Insights is not logged');
         }
 
         $data = $this->sendToTranslado('/sources/all', 'GET', ['locale' => $locale]);
@@ -200,7 +204,7 @@ class Insights
     public function listMySources(string $locale = null)
     {
         if (!$this->isLogged()) {
-            throw new InsightsException('Translado is not logged');
+            throw new InsightsException('Insights is not logged');
         }
 
         $data = $this->sendToTranslado('/sources/', 'GET', ['locale' => $locale]);
@@ -213,7 +217,7 @@ class Insights
      */
     public function listAllCategories(?string $source = null) {
         if (!$this->isLogged()) {
-            throw new InsightsException('Translado is not logged');
+            throw new InsightsException('Insights is not logged');
         }
 
         $data = $this->sendToTranslado('/categories/', 'GET', ['source' => $source]);
@@ -228,7 +232,7 @@ class Insights
     public function getProduct(int $productId): Product\GetResponse
     {
         if (!$this->isLogged()) {
-            throw new InsightsException('Translado is not logged');
+            throw new InsightsException('Insights is not logged');
         }
 
         $data = $this->sendToTranslado('/product/' . $productId . '/', 'GET');

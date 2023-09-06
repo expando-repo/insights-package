@@ -39,6 +39,7 @@
 
     if ($_POST['send'] ?? null) {
         try {
+            /** @var \Expando\InsightsPackage\Response\Product\PostResponse */
             $response = $insights->send(new FeedRequest($_POST['source'], $_POST['url']));
         }
         catch (\Expando\InsightsPackage\Exceptions\InsightsException $e) {
