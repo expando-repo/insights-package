@@ -9,10 +9,12 @@ use Expando\InsightsPackage\IRequest;
 class ProductHeurekaBiddingRequest extends Base implements IRequest
 {
     private ?int $ean = null;
+    private ?string $language = null;
 
-    public function __construct(?int $ean = null)
+    public function __construct(?int $ean = null, string $language = 'cz')
     {
         $this->ean = $ean;
+        $this->language = $language;
     }
 
     /**
@@ -24,12 +26,21 @@ class ProductHeurekaBiddingRequest extends Base implements IRequest
     }
 
     /**
+     * @return string|null
+     */
+    public function getLanguage(): ?string
+    {
+        return $this->language;
+    }
+
+    /**
      * @return array
      */
     public function asArray(): array
     {
         return [
             'ean' => $this->ean,
+            'language' => $this->language,
         ];
     }
 }
