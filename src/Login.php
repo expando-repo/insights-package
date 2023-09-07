@@ -14,14 +14,14 @@ class Login
     private string $clientSecret;
     private string $redirectUri;
     private array $scopes = [];
-    private string $transladoUrl;
+    private string $insightsUrl;
 
-    public function __construct(int $clientId, string $clientSecret, string $redirectUrl, string $transladoUrl = 'https://insights.expan.do')
+    public function __construct(int $clientId, string $clientSecret, string $redirectUrl, string $insightsUrl = 'https://insights.expan.do')
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->redirectUri = $redirectUrl;
-        $this->transladoUrl = $transladoUrl;
+        $this->insightsUrl = $insightsUrl;
     }
 
     /**
@@ -43,8 +43,8 @@ class Login
             'clientId'                => $this->clientId,    // The client ID assigned to you by the provider
             'clientSecret'            => $this->clientSecret,    // The client password assigned to you by the provider
             'redirectUri'             => $this->redirectUri,
-            'urlAuthorize'            => $this->transladoUrl . '/oauth/authorize',
-            'urlAccessToken'          => $this->transladoUrl . '/oauth/token',
+            'urlAuthorize'            => $this->insightsUrl . '/oauth/authorize',
+            'urlAccessToken'          => $this->insightsUrl . '/oauth/token',
             'urlResourceOwnerDetails' => '',
         ]);
 

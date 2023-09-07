@@ -1,6 +1,6 @@
 {
     "name": "expando-dev/insights-package",
-    "description": "Knihovna pro snadnější komunikaci s aplikaci translado",
+    "description": "Knihovna pro snadnější komunikaci s aplikaci insights",
     "type": "library",
     "authors": [
         {

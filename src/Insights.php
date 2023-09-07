@@ -138,10 +138,10 @@ class Insights
         }
 
         if ($request instanceof FeedRequest) {
-            $data = $this->sendToTranslado('/feed/' . $request->getSource(), 'POST', $request->asArray());
+            $data = $this->sendToInsights('/feed/' . $request->getSource(), 'POST', $request->asArray());
             $result = new Product\PostResponse($data);
         } else if ($request instanceof ProductHeurekaBiddingRequest) {
-            $data = $this->sendToTranslado('/heurekaBidding', 'POST', $request->asArray());
+            $data = $this->sendToInsights('/heurekaBidding', 'POST', $request->asArray());
             $result = new HeurekaBidding\PostResponse($data);
         } else {
             throw new InsightsException('Request not defined');
@@ -167,7 +167,7 @@ class Insights
             throw new InsightsException('Insights is not logged');
         }
 
-        $data = $this->sendToTranslado('/products/list', 'GET', array_filter([
+        $data = $this->sendToInsights('/products/list', 'GET', array_filter([
             'page' => $page,
             'on_page' => $onPage,
             'price_from' => $price_from,
@@ -192,7 +192,7 @@ class Insights
             throw new InsightsException('Insights is not logged');
         }
 
-        $data = $this->sendToTranslado('/sources/all', 'GET', ['locale' => $locale]);
+        $data = $this->sendToInsights('/sources/all', 'GET', ['locale' => $locale]);
         return new Source\ListResponse($data);
     }
 
@@ -207,7 +207,7 @@ class Insights
             throw new InsightsException('Insights is not logged');
         }
 
-        $data = $this->sendToTranslado('/sources/', 'GET', ['locale' => $locale]);
+        $data = $this->sendToInsights('/sources/', 'GET', ['locale' => $locale]);
         return new Source\ListResponse($data);
     }
 
@@ -220,7 +220,7 @@ class Insights
             throw new InsightsException('Insights is not logged');
         }
 
-        $data = $this->sendToTranslado('/categories/', 'GET', ['source' => $source]);
+        $data = $this->sendToInsights('/categories/', 'GET', ['source' => $source]);
         return new Category\ListResponse($data);
     }
 
@@ -235,7 +235,7 @@ class Insights
             throw new InsightsException('Insights is not logged');
         }
 
-        $data = $this->sendToTranslado('/product/' . $productId . '/', 'GET');
+        $data = $this->sendToInsights('/product/' . $productId . '/', 'GET');
         return new Product\GetResponse($data);
     }
 
@@ -246,7 +246,7 @@ class Insights
      * @return array
      * @throws InsightsException
      */
-    public function sendToTranslado(string $action, $method, array $body = []): array
+    public function sendToInsights(string $action, $method, array $body = []): array
     {
         $headers = array(
             'Accepts-version: 1.0',

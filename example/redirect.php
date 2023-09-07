@@ -38,7 +38,7 @@ if (($_POST['send'] ?? null) || ($_GET['code'] ?? null)) {
 <form method="post">
     <div>
         <label>
-            Translado URL<br />
+            Insights URL<br />
             <input type="text" name="insights_url" value="http://insights.local"  />
         </label>
     </div>
