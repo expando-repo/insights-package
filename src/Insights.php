@@ -141,7 +141,7 @@ class Insights
             $data = $this->sendToInsights('/feed/' . $request->getSource(), 'POST', $request->asArray());
             $result = new Product\PostResponse($data);
         } else if ($request instanceof ProductHeurekaBiddingRequest) {
-            $data = $this->sendToInsights('/heurekaBidding', 'POST', $request->asArray());
+            $data = $this->sendToInsights('/heureka-bidding', 'POST', $request->asArray());
             $result = new HeurekaBidding\PostResponse($data);
         } else {
             throw new InsightsException('Request not defined');
