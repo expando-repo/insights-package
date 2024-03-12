@@ -27,7 +27,7 @@
                 (int)$_POST['price_to'], 
                 $_POST['category'], 
                 $_POST['price'] ?? null, 
-                $_POST['order'] ?? null, 
+                $_POST['sort'] ?? null,
                 $_POST['locale'], 
                 $_POST['text'],
                 $_POST['source']

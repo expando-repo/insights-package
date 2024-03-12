@@ -170,7 +170,7 @@ class Insights
      * @return Product\ListResponse
      * @throws InsightsException
      */
-    public function listProducts(int $page = 1, int $onPage = 20, int $price_from = null, int $price_to = null, string $category = null, string $price = null, string $order = null, string $locale = null, string|array $text = null, string $source = null): Product\ListResponse
+    public function listProducts(int $page = 1, int $onPage = 20, int $price_from = null, int $price_to = null, string $category = null, string $price = null, array $sort = null, string $locale = null, string|array $text = null, string $source = null): Product\ListResponse
     {
         if (!$this->isLogged()) {
             throw new InsightsException('Insights is not logged');
@@ -183,7 +183,7 @@ class Insights
             'price_to' => $price_to,
             'category' => $category,
             'price' => $price,
-            'order' => $order,
+            'sort' => $sort,
             'locale' => $locale,
             'text' => $text,
             'source' => $source
