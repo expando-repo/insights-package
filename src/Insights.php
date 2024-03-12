@@ -9,10 +9,13 @@ use Expando\InsightsPackage\Request\ProductFilterRequest;
 use Expando\InsightsPackage\Request\ProductHeurekaBiddingRequest;
 use Expando\InsightsPackage\Request\ProductRequest;
 use Expando\InsightsPackage\Request\FeedRequest;
+use Expando\InsightsPackage\Request\ProductRulesIframeRequest;
+use Expando\InsightsPackage\Request\UserPriceRulesIframeRequest;
 use Expando\InsightsPackage\Response\HeurekaBidding;
 use Expando\InsightsPackage\Response\Product;
 use Expando\InsightsPackage\Response\Source;
 use Expando\InsightsPackage\Response\Category;
+use Expando\InsightsPackage\Response\User;
 use JetBrains\PhpStorm\ArrayShape;
 
 class Insights
@@ -143,6 +146,12 @@ class Insights
         } else if ($request instanceof ProductHeurekaBiddingRequest) {
             $data = $this->sendToInsights('/heureka-bidding', 'POST', $request->asArray());
             $result = new HeurekaBidding\PostResponse($data);
+        } else if ($request instanceof ProductRulesIframeRequest) {
+            $data = $this->sendToInsights('/product-rules-iframe', 'POST', $request->asArray());
+            $result = new Product\RulesIframeResponse($data);
+        } else if ($request instanceof UserPriceRulesIframeRequest) {
+            $data = $this->sendToInsights('/user-price-rules-iframe', 'POST', $request->asArray());
+            $result = new User\UserPriceRulesIframeResponse($data);
         } else {
             throw new InsightsException('Request not defined');
         }
