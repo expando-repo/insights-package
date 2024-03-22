@@ -9,22 +9,17 @@ use Expando\InsightsPackage\IRequest;
 class OrderProductRequest extends Base implements IRequest
 {
     private string $ean;
-    private float $quantity;
-    private ?int $productId = null;
+    private float $quantity = 1;
+    private float $price = 0;
 
-    public function __construct(?int $productId, int $ean, float $quantity = null)
+    public function setEan(string $ean): void
     {
-        $this->productId = $productId;
         $this->ean = $ean;
-        $this->quantity = $quantity;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getProductId(): ?int
+    public function setQuantity(float $quantity): void
     {
-        return $this->productId;
+        $this->quantity = $quantity;
     }
 
     /**
@@ -43,6 +38,16 @@ class OrderProductRequest extends Base implements IRequest
         return $this->quantity;
     }
 
+    public function setPrice(float $price): void
+    {
+        $this->price = $price;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
     /**
      * @return array
      */
@@ -50,8 +55,8 @@ class OrderProductRequest extends Base implements IRequest
     {
         return [
             'ean' => $this->ean,
-            'product_id' => $this->productId,
             'quantity' => $this->quantity,
+            'price' => $this->price,
         ];
     }
 }
