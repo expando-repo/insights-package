@@ -12,6 +12,7 @@ use Expando\InsightsPackage\Request\FeedRequest;
 use Expando\InsightsPackage\Request\ProductRulesIframeRequest;
 use Expando\InsightsPackage\Request\UserPriceRulesIframeRequest;
 use Expando\InsightsPackage\Request\OrderRequest;
+use Expando\InsightsPackage\Request\RegisterProductsRequest;
 use Expando\InsightsPackage\Response\HeurekaBidding;
 use Expando\InsightsPackage\Response\Product;
 use Expando\InsightsPackage\Response\Source;
@@ -133,7 +134,7 @@ class Insights
 
     /**
      * @param IRequest $request
-     * @return Product\PostResponse|HeurekaBidding\PostResponse
+     * @return Product\PostResponse|HeurekaBidding\PostResponse|Product\RegisterResponse
      * @throws InsightsException
      */
     public function send(IRequest $request)
@@ -157,6 +158,9 @@ class Insights
         } else if ($request instanceof OrderRequest) {
             $data = $this->sendToInsights('/order/upload', 'POST', $request->asArray());
             $result = new Order\PostResponse($data);
+        } else if ($request instanceof RegisterProductsRequest) {
+            $data = $this->sendToInsights('/products/register', 'POST', http_build_query($request->asArray()));
+            $result = new Product\RegisterResponse($data);
         } else {
             throw new InsightsException('Request not defined');
         }
@@ -257,11 +261,11 @@ class Insights
     /**
      * @param string $action
      * @param mixed $method
-     * @param array $body
+     * @param array|string $body
      * @return array
      * @throws InsightsException
      */
-    public function sendToInsights(string $action, $method, array $body = []): array
+    public function sendToInsights(string $action, $method, array|string $body = []): array
     {
         $headers = array(
             'Accepts-version: 1.0',
@@ -270,7 +274,11 @@ class Insights
 
         $url = $this->url . '/api' . $action;
         if (!empty($body) && $method === 'GET') {
-            $url .= '?' . http_build_query($body);
+            if (is_array($body) || is_object($body)) {
+                $url .= '?' . http_build_query($body);
+            } else {
+                $url .= '?' . $body;
+            }
         }
         $ch = curl_init($url);
         if ($ch === false) {
