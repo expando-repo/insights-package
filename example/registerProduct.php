@@ -7,12 +7,6 @@
     </div>
     <div>
         <label>
-            EAN: <br />
-            <input type="text" name="ean" />
-        </label>
-    </div>
-    <div>
-        <label>
             ID produktu: <br />
             <input type="text" name="productId" />
         </label>
@@ -51,7 +45,7 @@
     if ($_POST['send'] ?? null) {
         try {
             $RegisterProductsRequest = new RegisterProductsRequest();
-            $ProductToRegister = new ProductToRegister($_POST['url'], $_POST['ean'], $_POST['productId'], $_POST['shopProductId']);
+            $ProductToRegister = new ProductToRegister($_POST['productId'], $_POST['url'], $_POST['shopProductId']);
             $RegisterProductsRequest->addProductToRegister($ProductToRegister);
             
             /** @var \Expando\InsightsPackage\Response\Product\RegisterResponse */
