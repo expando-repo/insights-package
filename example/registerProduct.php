@@ -18,6 +18,12 @@
         </label>
     </div>
     <div>
+        <label>
+            ID zdroje v Insights: <br />
+            <input type="text" name="shopProductId" />
+        </label>
+    </div>
+    <div>
         <input type="submit" name="send" value="send" />
     </div>
 </form>
@@ -44,12 +50,12 @@
 
     if ($_POST['send'] ?? null) {
         try {
-            $RegisterProductsRequest = new RegisterProductsRequest();
-            $ProductToRegister = new ProductToRegister($_POST['productId'], $_POST['url'], $_POST['shopProductId']);
-            $RegisterProductsRequest->addProductToRegister($ProductToRegister);
+            $registerProductsRequest = new RegisterProductsRequest();
+            $productToRegister = new ProductToRegister($_POST['productId'], $_POST['url'], $_POST['sourceId'], $_POST['shopProductId']);
+            $registerProductsRequest->addProductToRegister($productToRegister);
             
             /** @var \Expando\InsightsPackage\Response\Product\RegisterResponse */
-            $response = $insights->send($RegisterProductsRequest);
+            $response = $insights->send($registerProductsRequest);
         }
         catch (\Expando\InsightsPackage\Exceptions\InsightsException $e) {
             die($e->getMessage());

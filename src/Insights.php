@@ -134,7 +134,7 @@ class Insights
 
     /**
      * @param IRequest $request
-     * @return Product\PostResponse|HeurekaBidding\PostResponse|Product\RegisterResponse
+     * @return Product\PostResponse|HeurekaBidding\PostResponse|Product\RulesIframeResponse|User\UserPriceRulesIframeResponse|Order\PostResponse|Product\RegisterResponse
      * @throws InsightsException
      */
     public function send(IRequest $request)
